@@ -1,73 +1,56 @@
 // Напиши класс Car с указанными свойствами и методами.
 
 class Car {
-  /*
-   * Добавь статический метод `getSpecs(car)`,
-   * который принимает объект-машину как параметр и выводит
-   * в консоль значения свойств maxSpeed, speed, isOn, distance и price.
-   */
-
-  /*
-   * Конструктор получает объект настроек.
-   *
-   * Добавь свойства будущеего экземпляра класса:
-   *  speed - текущая скорость, изначально 0
-   *  price - цена автомобиля
-   *  maxSpeed - максимальная скорость
-   *  isOn - заведен ли автомобиль, значения true или false. Изначально false
-   *  distance - общий киллометраж, изначально 0
-   */
   constructor(car) {
-    this.maxSpeed = 0 || car.maxSpeed;
-    this.speed = car.speed;
-    this.isOn = car.isOn;
-    this.distance = car.distance;
     this._price = car.price;
-    console.log(`${maxSpeed}, ${speed}, ${isOn}, ${distance} и ${price}`);
+    this.speed = 0;
+    this.maxSpeed = car.maxSpeed;
+    this.distance = 0;
+    this.isOn = false;
   }
-  set price(price) {
-    this._price = price;
+
+  static getSpecs(car) {
+    console.log(
+      `maxSpeed: ${car.maxSpeed}, speed: ${car.speed}, isOn: ${car.isOn}, distance:  ${car.distance}, price:  ${car._price}`,
+    );
   }
+
+  set price(amount) {
+    this._price = amount;
+  }
+
   get price() {
-    this.price;
+    return this._price;
   }
 
-  /*
-   * Добавь геттер и сеттер для свойства price,
-   * который будет работать с свойством цены автомобиля.
-   */
+  turnOn() {
+    this.isOn = true;
+  }
 
-  /*
-   * Добавь код для того чтобы завести автомобиль
-   * Записывает в свойство isOn значение true
-   */
-  turnOn() {}
+  turnOff() {
+    this.isOn = false;
+    this.speed = 0;
+  }
 
-  /*
-   * Добавь код для того чтобы заглушить автомобиль
-   * Записывает в свойство isOn значение false,
-   * и сбрасывает текущую скорость в 0
-   */
-  turnOff() {}
+  accelerate(value) {
+    const newSpeed = this.speed + value;
+    if (newSpeed < this.maxSpeed) {
+      this.speed = newSpeed;
+    }
+  }
 
-  /*
-   * Добавялет к свойству speed полученное значение,
-   * при условии что результирующая скорость
-   * не больше чем значение свойства maxSpeed
-   */
-  accelerate(value) {}
+  decelerate(value) {
+    const newSpeed = this.speed - value;
+    if (newSpeed > 0) {
+      this.speed = newSpeed;
+    }
+  }
 
-  /*
-   * Отнимает от свойства speed полученное значение,
-   * при условии что результирующая скорость не меньше нуля
-   */
-  decelerate(value) {}
-
-  /*
-   * Добавляет в поле distance киллометраж (hours * speed),
-   * но только в том случае если машина заведена!
-   */
-  drive(hours) {}
+  drive(hours) {
+    if (hours > 0 && this.isOn && this.speed > 0) {
+      this.distance += hours * this.speed;
+    }
+  }
 }
 
 const mustang = new Car({ maxSpeed: 200, price: 2000 });
